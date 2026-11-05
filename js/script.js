@@ -19,21 +19,22 @@ about_1:"Ottoman Palace Restaurant is in Huaqiangbei, Futian District, Shenzhen.
 about_2:"We offer dine-in service with charcoal grills, shawarma, mandi rice, pizza, starters, desserts and fresh juices. Families, friends and birthday groups are welcome. No alcohol is served.",
 halal_h:"What does “Halal” mean?",halal_p:"“Halal” is Arabic for “permitted”. For food, it means meeting Islamic dietary rules: no pork, no alcohol, and meat prepared in the prescribed way.",
 c_phone:"Phone",c_addr:"Address",directions:"Directions (Amap)",pending:"To be confirmed",wa_msg:"Hello, I would like to book a table."},
-tr:{name:"Osmanlı Saray Restoranı",nav_home:"Ana sayfa",nav_menu:"Menü",nav_about:"Hakkımızda",nav_contact:"İletişim",halal_tag:"HELAL",hero_title:"Otantik Helal Türk Mutfağı",hero_sub:"Shenzhen Huaqiangbei · Kebap, mandi pilavı, pide ve geleneksel tatlılar",view_menu:"Menüyü gör",book:"Rezervasyon",book_wa:"WhatsApp ile rezervasyon",menu_note:"Fiyatlar Çin Yuanı (CNY) cinsindendir. Fotoğraflar temsilidir.",
-about_1:"Osmanlı Saray Restoranı, Shenzhen Futian bölgesindeki Huaqiangbei'de yer alır. Türk mutfağı ağırlıklı helal Orta Doğu yemekleri ile Arap, Pakistan ve Hint yemekleri sunar.",
-about_2:"Mangal ızgaralar, şavurma, mandi pilavı, pizza, mezeler, tatlılar ve taze meyve suları sunuyoruz. Aileler, arkadaş grupları ve doğum günleri için uygundur. Alkollü içki servis edilmez.",
-halal_h:"“Helal” ne demek?",halal_p:"“Helal” Arapça'da “izin verilen” anlamına gelir. Yiyecekte İslami kurallara uygunluk demektir: domuz eti ve alkol yoktur, et usulüne uygun hazırlanır.",
-c_phone:"Telefon",c_addr:"Adres",directions:"Yol tarifi (Amap)",pending:"Onay bekliyor",wa_msg:"Merhaba, rezervasyon yapmak istiyorum."}
+ar:{name:"مطعم القصر العثماني التركي",nav_home:"الرئيسية",nav_menu:"قائمة الطعام",nav_about:"من نحن",nav_contact:"تواصل معنا",halal_tag:"حلال HALAL",hero_title:"مأكولات تركية حلال أصيلة",hero_sub:"هواكيانغبي، شنتشن · مشاوي وأرز مندي وبيتزا وحلويات تقليدية",view_menu:"عرض القائمة",book:"احجز طاولة",book_wa:"احجز عبر واتساب",menu_note:"الأسعار باليوان الصيني (CNY). الصور للتوضيح فقط.",
+about_1:"يقع مطعم القصر العثماني التركي في حي هواكيانغبي بمنطقة فوتيان في شنتشن. نقدم أطباقًا حلالًا من الشرق الأوسط بطابع تركي، إضافة إلى أطباق عربية وباكستانية وهندية.",
+about_2:"نقدم الطعام داخل المطعم: مشاوي على الفحم وشاورما وأرز مندي وبيتزا ومقبلات وحلويات وعصائر طازجة. أهلاً بالعائلات والأصدقاء وحفلات أعياد الميلاد. لا نقدم أي مشروبات كحولية.",
+halal_h:"ما معنى «حلال»؟",halal_p:"«حلال» كلمة عربية تعني «المباح». في الطعام تعني أنه مطابق لأحكام الشريعة الإسلامية: لا لحم خنزير ولا كحول، وتُحضَّر اللحوم بالطريقة المقررة شرعًا.",
+c_phone:"الهاتف",c_addr:"العنوان",directions:"الاتجاهات (Amap)",pending:"سيُضاف قريبًا",wa_msg:"مرحبًا، أود حجز طاولة."}
 };
 
-let lang = localStorage.getItem("lang") || "zh";
+const saved = localStorage.getItem("lang");
+let lang = ["zh","en","ar"].includes(saved) ? saved : "zh";
 let cat = 0;
 const $ = s => document.querySelector(s);
 
 function renderMenu(){
   $("#tabs").innerHTML = MENU.map((c,i)=>`<button class="${i===cat?"on":""}" data-c="${i}">${c.n[lang]}</button>`).join("");
-  $("#items").innerHTML = MENU[cat].d.map(([zh,en,p,img])=>{
-    const main = lang==="zh" ? zh : en, sub = lang==="zh" ? en : "";
+  $("#items").innerHTML = MENU[cat].d.map(([zh,en,ar,p,img])=>{
+    const main = {zh,en,ar}[lang], sub = lang==="en" ? "" : en;
     return `<div class="item">${img?`<img src="images/${img}.webp" alt="${en}" loading="lazy">`:""}<div class="n">${main}${sub?`<small>${sub}</small>`:""}</div><div class="p">¥${p}</div></div>`;
   }).join("");
 }
@@ -53,6 +54,7 @@ const waLink = () => "https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponen
 function setLang(l){
   lang = l; localStorage.setItem("lang", l);
   document.documentElement.lang = l==="zh" ? "zh-CN" : l;
+  document.documentElement.dir = l==="ar" ? "rtl" : "ltr";
   document.querySelectorAll("[data-i18n]").forEach(e=>{ const v=T[l][e.dataset.i18n]; if(v) e.textContent=v; });
   document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on", b.dataset.lang===l));
   document.title = T[l].name;
