@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>奥斯曼土耳其餐厅 | Ottoman Palace Restaurant | Shenzhen</title>
+<meta name="description" content="深圳华强北清真土耳其餐厅 · Halal Turkish restaurant in Shenzhen">
+<link rel="icon" href="images/logo.svg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="top">
+  <a href="#home" class="brand"><img src="images/logo.svg" alt="Logo" width="40" height="40"><span data-i18n="name">奥斯曼土耳其餐厅</span></a>
+  <div class="langs">
+    <button data-lang="zh">中文</button><button data-lang="en">EN</button><button data-lang="tr">TR</button>
+  </div>
+</header>
+
+<button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+<nav class="drawer" id="drawer">
+  <a href="#home" data-i18n="nav_home">首页</a>
+  <a href="#menu" data-i18n="nav_menu">菜单</a>
+  <a href="#about" data-i18n="nav_about">关于我们</a>
+  <a href="#contact" data-i18n="nav_contact">联系我们</a>
+</nav>
+
+<main>
+<section id="home" class="hero">
+  <img src="images/interior1.webp" alt="" class="hero-img">
+  <div class="hero-text">
+    <p class="halal" data-i18n="halal_tag">清真 HALAL</p>
+    <h1 data-i18n="hero_title">地道土耳其清真美食</h1>
+    <p data-i18n="hero_sub">深圳华强北 · 烤肉、曼迪饭、披萨与传统甜点</p>
+    <div class="btns">
+      <a class="btn" href="#menu" data-i18n="view_menu">查看菜单</a>
+      <a class="btn ghost" data-book data-i18n="book">预订座位</a>
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="sec">
+  <h2 data-i18n="nav_menu">菜单</h2>
+  <p class="note" data-i18n="menu_note">价格单位：人民币（元）。图片仅供参考，以实物为准。</p>
+  <div class="tabs" id="tabs"></div>
+  <div class="items" id="items"></div>
+</section>
+
+<section id="about" class="sec gray">
+  <h2 data-i18n="nav_about">关于我们</h2>
+  <p data-i18n="about_1"></p>
+  <p data-i18n="about_2"></p>
+  <h3 data-i18n="halal_h">什么是“清真 / Halal”？</h3>
+  <p data-i18n="halal_p"></p>
+  <div class="gallery">
+    <img src="images/interior2.webp" alt="" loading="lazy">
+    <img src="images/kebab1.webp" alt="" loading="lazy">
+    <img src="images/mandi2.webp" alt="" loading="lazy">
+    <img src="images/interior3.webp" alt="" loading="lazy">
+  </div>
+</section>
+
+<section id="contact" class="sec">
+  <h2 data-i18n="nav_contact">联系我们</h2>
+  <div class="cards">
+    <div class="card"><h3 data-i18n="c_phone">电话</h3><a id="phoneLink" href="#"></a></div>
+    <div class="card"><h3>WhatsApp</h3><a id="waLink" href="#" target="_blank" rel="noopener"></a></div>
+    <div class="card"><h3 data-i18n="c_addr">地址</h3><p id="addr"></p><a id="mapLink" href="#" target="_blank" rel="noopener" data-i18n="directions">高德地图导航</a></div>
+    <div class="card"><h3>Email</h3><a id="mailLink" href="#"></a></div>
+  </div>
+  <a class="btn big" data-book data-i18n="book_wa">通过 WhatsApp 预订</a>
+</section>
+</main>
+
+<footer>© <span data-i18n="name">奥斯曼土耳其餐厅</span></footer>
+<script src="js/menu.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
