@@ -10,13 +10,19 @@
 </head>
 <body>
 <header class="top">
-  <a href="#home" class="brand"><img src="images/logo.png" alt="Logo" width="40" height="40"><span data-i18n="name">奥斯曼土耳其餐厅</span></a>
-  <div class="langs">
-    <button data-lang="zh">中文</button><button data-lang="en">EN</button><button data-lang="ar">عربي</button>
+  <div class="top-row">
+    <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <a href="#home" class="brand"><img src="images/logo.png" alt="Logo" width="44" height="44"><span data-i18n="name">奥斯曼土耳其餐厅</span></a>
+    <span class="top-spacer" aria-hidden="true"></span>
+  </div>
+  <div class="langs" role="group" aria-label="Language">
+    <button type="button" data-lang="zh">中文</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="ar">عربي</button>
+    <button type="button" data-lang="tr">TR</button>
   </div>
 </header>
 
-<button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
 <nav class="drawer" id="drawer">
   <a href="#home" data-i18n="nav_home">首页</a>
   <a href="#menu" data-i18n="nav_menu">菜单</a>
@@ -69,7 +75,6 @@
     <div class="card"><h3 data-i18n="c_addr">地址</h3><p id="addr"></p><a id="mapLink" href="#" target="_blank" rel="noopener" data-i18n="directions">高德地图导航</a></div>
     <div class="card"><h3>Email</h3><a id="mailLink" href="#"></a></div>
   </div>
-  <a class="btn wa big" data-book data-i18n="book_wa">通过 WhatsApp 预订</a>
 </section>
 </main>
 
