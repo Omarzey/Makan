@@ -9,7 +9,8 @@ h2{font-size:2rem;margin-bottom:.6rem}
 h3{font-size:1.2rem;margin:1.6rem 0 .4rem}
 .top{position:sticky;top:0;z-index:20;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;background:#fff;border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-weight:600;font-size:.95rem}
-.brand img{border-radius:8px}
+.brand img{border-radius:50%}
+.qr{width:210px;max-width:100%;margin:10px 0;border-radius:8px;border:1px solid var(--line)}
 .langs{display:flex;direction:ltr}
 .langs button{border:1px solid var(--line);background:#fff;padding:6px 10px;font-size:.85rem;cursor:pointer;color:var(--text)}
 .langs button:first-child{border-radius:8px 0 0 8px}.langs button:last-child{border-radius:0 8px 8px 0}
