@@ -1,8 +1,9 @@
 // ====== EDIT THESE when the restaurant confirms the details ======
 const CONFIG = {
-  phone: "",      // example: "+8675512345678"  (leave "" until confirmed)
+  phone: "+8675523964118",
   whatsapp: "",   // digits only with country code, example: "8613812345678"
   email: "",      // example: "info@example.com"
+  mapUrl: "https://surl.amap.com/kWOHY2mn8qd", // Amap share link from the restaurant
   address: "深圳市福田区华强北街道华航社区振兴路150-2", // from the menu PDF, to be confirmed
   city: "深圳"
 };
@@ -13,17 +14,17 @@ zh:{name:"奥斯曼土耳其餐厅",nav_home:"首页",nav_menu:"菜单",nav_abou
 about_1:"奥斯曼土耳其餐厅位于深圳福田区华强北，提供以土耳其为主的中东风味清真菜，也有阿拉伯、巴基斯坦和印度风味的菜品。",
 about_2:"我们提供堂食，菜品包括炭火烤肉、沙威玛、曼迪饭、披萨、前菜、甜点和鲜榨果汁，也欢迎家庭聚餐、朋友聚会和生日活动。餐厅不提供任何酒类饮品。",
 halal_h:"什么是“清真 / Halal”？",halal_p:"“Halal”是阿拉伯语，意思是“被允许的”。在饮食上，指符合伊斯兰教规的食物：不含猪肉，不含酒精，肉类需按规定方式屠宰。",
-c_phone:"电话",c_addr:"地址",directions:"高德地图导航",pending:"待确认",wa_msg:"您好，我想预订座位。"},
+c_phone:"电话",wechat_hint:"扫码添加微信，在线预订",c_addr:"地址",directions:"高德地图导航",pending:"待确认",wa_msg:"您好，我想预订座位。"},
 en:{name:"Ottoman Palace Restaurant",nav_home:"Home",nav_menu:"Menu",nav_about:"About us",nav_contact:"Contact",halal_tag:"HALAL",hero_title:"Authentic Halal Turkish Food",hero_sub:"Huaqiangbei, Shenzhen · Kebabs, mandi rice, pizza and traditional desserts",view_menu:"View menu",book:"Book a table",book_wa:"Book via WhatsApp",menu_note:"Prices are in Chinese Yuan (CNY). Photos are for reference only.",
 about_1:"Ottoman Palace Restaurant is in Huaqiangbei, Futian District, Shenzhen. We serve halal Middle Eastern food with a Turkish focus, plus Arabic, Pakistani and Indian dishes.",
 about_2:"We offer dine-in service with charcoal grills, shawarma, mandi rice, pizza, starters, desserts and fresh juices. Families, friends and birthday groups are welcome. No alcohol is served.",
 halal_h:"What does “Halal” mean?",halal_p:"“Halal” is Arabic for “permitted”. For food, it means meeting Islamic dietary rules: no pork, no alcohol, and meat prepared in the prescribed way.",
-c_phone:"Phone",c_addr:"Address",directions:"Directions (Amap)",pending:"To be confirmed",wa_msg:"Hello, I would like to book a table."},
+c_phone:"Phone",wechat_hint:"Scan to add us on WeChat and book",c_addr:"Address",directions:"Directions (Amap)",pending:"To be confirmed",wa_msg:"Hello, I would like to book a table."},
 ar:{name:"مطعم القصر العثماني التركي",nav_home:"الرئيسية",nav_menu:"قائمة الطعام",nav_about:"من نحن",nav_contact:"تواصل معنا",halal_tag:"حلال HALAL",hero_title:"مأكولات تركية حلال أصيلة",hero_sub:"هواكيانغبي، شنتشن · مشاوي وأرز مندي وبيتزا وحلويات تقليدية",view_menu:"عرض القائمة",book:"احجز طاولة",book_wa:"احجز عبر واتساب",menu_note:"الأسعار باليوان الصيني (CNY). الصور للتوضيح فقط.",
 about_1:"يقع مطعم القصر العثماني التركي في حي هواكيانغبي بمنطقة فوتيان في شنتشن. نقدم أطباقًا حلالًا من الشرق الأوسط بطابع تركي، إضافة إلى أطباق عربية وباكستانية وهندية.",
 about_2:"نقدم الطعام داخل المطعم: مشاوي على الفحم وشاورما وأرز مندي وبيتزا ومقبلات وحلويات وعصائر طازجة. أهلاً بالعائلات والأصدقاء وحفلات أعياد الميلاد. لا نقدم أي مشروبات كحولية.",
 halal_h:"ما معنى «حلال»؟",halal_p:"«حلال» كلمة عربية تعني «المباح». في الطعام تعني أنه مطابق لأحكام الشريعة الإسلامية: لا لحم خنزير ولا كحول، وتُحضَّر اللحوم بالطريقة المقررة شرعًا.",
-c_phone:"الهاتف",c_addr:"العنوان",directions:"الاتجاهات (Amap)",pending:"سيُضاف قريبًا",wa_msg:"مرحبًا، أود حجز طاولة."}
+c_phone:"الهاتف",wechat_hint:"امسح الرمز لإضافتنا على ويتشات والحجز",c_addr:"العنوان",directions:"الاتجاهات (Amap)",pending:"سيُضاف قريبًا",wa_msg:"مرحبًا، أود حجز طاولة."}
 };
 
 const saved = localStorage.getItem("lang");
@@ -42,12 +43,12 @@ function renderMenu(){
 function contact(){
   const t = T[lang], pend = t.pending;
   const ph = $("#phoneLink"), wa = $("#waLink"), ml = $("#mailLink");
-  ph.textContent = CONFIG.phone || pend; ph.href = CONFIG.phone ? "tel:"+CONFIG.phone : "#contact";
+  ph.textContent = CONFIG.phone ? CONFIG.phone.replace(/^\+86(\d{3})(\d{4})(\d{4})$/,"+86 $1 $2 $3") : pend; ph.href = CONFIG.phone ? "tel:"+CONFIG.phone : "#contact";
   wa.textContent = CONFIG.whatsapp ? "+"+CONFIG.whatsapp : pend;
   wa.href = CONFIG.whatsapp ? waLink() : "#contact";
   ml.textContent = CONFIG.email || pend; ml.href = CONFIG.email ? "mailto:"+CONFIG.email : "#contact";
   $("#addr").textContent = CONFIG.address;
-  $("#mapLink").href = "https://uri.amap.com/search?keyword="+encodeURIComponent(CONFIG.address)+"&city="+encodeURIComponent(CONFIG.city);
+  $("#mapLink").href = CONFIG.mapUrl || ("https://uri.amap.com/search?keyword="+encodeURIComponent(CONFIG.address)+"&city="+encodeURIComponent(CONFIG.city));
 }
 const waLink = () => "https://wa.me/"+CONFIG.whatsapp+"?text="+encodeURIComponent(T[lang].wa_msg);
 
