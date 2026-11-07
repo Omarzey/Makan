@@ -70,7 +70,7 @@ function setLang(l){
   document.querySelectorAll("[data-i18n]").forEach(e=>{ const v=T[l][e.dataset.i18n]; if(v) e.textContent=v; });
   document.querySelectorAll("[data-i18n-ph]").forEach(e=>{ const v=T[l][e.dataset.i18nPh]; if(v) e.placeholder=v; });
   document.querySelectorAll("[data-i18n-aria]").forEach(e=>{ const v=T[l][e.dataset.i18nAria]; if(v) e.setAttribute("aria-label",v); });
-  document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("on", b.dataset.lang===l));
+  document.querySelectorAll("[data-lang]").forEach(b=>{ const on = b.dataset.lang===l; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
   document.title = T[l].name;
   renderMenu(); contact();
 }
@@ -81,13 +81,44 @@ document.addEventListener("click", e=>{
   if(b.dataset.c){ cat = +b.dataset.c; query = ""; $("#search").value = ""; renderMenu(); }
   if(b.dataset.gi!==undefined) openLb(+b.dataset.gi);
   if(b.dataset.lb) lbAction(b.dataset.lb);
-  if(b.id==="burger"){ const o=$("#drawer").classList.toggle("open"); b.setAttribute("aria-expanded",o); }
-  else { $("#drawer").classList.remove("open"); $("#burger").setAttribute("aria-expanded","false"); }
+  if(b.id==="burger"){ drawer.classList.contains("open") ? closeNav(true) : openNav(); }
+  else if(drawer.classList.contains("open")) closeNav(false);
   if(b.hasAttribute("data-book")){
     if(CONFIG.whatsapp) window.open(waLink(), "_blank");
-    else $("#contact").scrollIntoView();
+    else { $("#contact").scrollIntoView(); pulse(); }
   }
 });
+// ---- header: live height, scroll effect, side menu ----
+const topbar = document.querySelector(".top"), drawer = $("#drawer"), burger = $("#burger"), scrim = $("#scrim");
+function syncHeader(){ document.documentElement.style.setProperty("--hh", topbar.offsetHeight + "px"); }
+new ResizeObserver(syncHeader).observe(topbar); topbar.addEventListener("transitionend", syncHeader); syncHeader();
+let ticking = false;
+function onScroll(){ topbar.classList.toggle("scrolled", window.scrollY > 24); ticking = false; }
+window.addEventListener("scroll", ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(onScroll); } }, {passive:true});
+onScroll();
+function openNav(){ drawer.classList.add("open"); scrim.classList.add("show"); burger.setAttribute("aria-expanded","true"); document.body.classList.add("nav-open"); drawer.querySelector("a").focus(); }
+function closeNav(restore){ drawer.classList.remove("open"); scrim.classList.remove("show"); burger.setAttribute("aria-expanded","false"); document.body.classList.remove("nav-open"); if(restore) burger.focus(); }
+scrim.addEventListener("click", ()=>closeNav(true));
+document.addEventListener("keydown", e=>{
+  if(!drawer.classList.contains("open")) return;
+  if(e.key==="Escape"){ e.preventDefault(); closeNav(true); return; }
+  if(e.key==="Tab"){            // keep keyboard focus inside the open menu: [menu button + links]
+    const it = [burger, ...drawer.querySelectorAll("a")], i = it.indexOf(document.activeElement);
+    e.preventDefault();
+    it[i < 0 ? (e.shiftKey ? it.length-1 : 0) : (i + (e.shiftKey ? -1 : 1) + it.length) % it.length].focus();
+  }
+});
+// highlight the section being viewed
+const navLinks = [...drawer.querySelectorAll("a")];
+const spy = new IntersectionObserver(es=>es.forEach(en=>{
+  if(!en.isIntersecting) return;
+  $("#waFloat").classList.toggle("hide", en.target.id==="home");   // do not cover the hero buttons
+  navLinks.forEach(a=>{ const on = a.getAttribute("href")==="#"+en.target.id; a.classList.toggle("active", on); on ? a.setAttribute("aria-current","location") : a.removeAttribute("aria-current"); });
+}), {rootMargin:"-40% 0px -55% 0px"});
+document.querySelectorAll("main > section").forEach(sec=>spy.observe(sec));
+// reservation fallback: briefly highlight the contact options that exist today
+function pulse(){ ["#cardPhone","#cardWechat"].forEach(id=>{ const c=$(id); c.classList.remove("pulse"); void c.offsetWidth; c.classList.add("pulse"); setTimeout(()=>c.classList.remove("pulse"),1900); }); }
+
 // ---- search ----
 $("#search").addEventListener("input", e=>{ query = e.target.value; renderMenu(); });
 
