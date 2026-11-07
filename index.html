@@ -7,21 +7,22 @@
 <meta name="description" content="深圳华强北奥斯曼土耳其清真餐厅电子菜单：烤肉、曼迪饭、披萨、前菜与甜点。Halal Turkish restaurant menu in Shenzhen, Huaqiangbei.">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="images/logo.png">
+<link rel="preload" as="image" href="images/interior1.webp" imagesrcset="images/interior1-640.webp 640w, images/interior1.webp 1100w, images/interior1-1600.webp 1600w" imagesizes="100vw">
 <link rel="stylesheet" href="css/style.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Ottoman Palace Restaurant 奥斯曼土耳其餐厅","servesCuisine":["Turkish","Halal"],"telephone":"+8675523964118","address":{"@type":"PostalAddress","streetAddress":"No. 150-2, Zhenxing Road, Huaqiangbei Subdistrict, Futian District","addressLocality":"Shenzhen","addressCountry":"CN"}}</script>
 </head>
 <body>
 <header class="top">
   <div class="top-row">
-    <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
     <a href="#home" class="brand"><img src="images/logo.png" alt="Ottoman Palace Restaurant logo" width="44" height="44"><span data-i18n="name">奥斯曼土耳其餐厅</span></a>
     <span class="top-spacer" aria-hidden="true"></span>
   </div>
   <div class="langs" role="group" aria-label="Language">
-    <button type="button" data-lang="zh">中文</button>
-    <button type="button" data-lang="en">EN</button>
-    <button type="button" data-lang="ar">عربي</button>
-    <button type="button" data-lang="tr">TR</button>
+    <button type="button" data-lang="zh" lang="zh" aria-pressed="false">中文</button>
+    <button type="button" data-lang="en" lang="en" aria-pressed="false">EN</button>
+    <button type="button" data-lang="ar" lang="ar" aria-pressed="false">عربي</button>
+    <button type="button" data-lang="tr" lang="tr" aria-pressed="false">TR</button>
   </div>
 </header>
 
@@ -32,10 +33,11 @@
   <a href="#gallery" data-i18n="nav_gallery">图片</a>
   <a href="#contact" data-i18n="nav_contact">联系我们</a>
 </nav>
+<div class="scrim" id="scrim"></div>
 
 <main>
 <section id="home" class="hero">
-  <img src="images/interior1.webp" alt="Ottoman Palace Restaurant interior" class="hero-img" fetchpriority="high">
+  <img class="hero-img" src="images/interior1.webp" srcset="images/interior1-640.webp 640w, images/interior1.webp 1100w, images/interior1-1600.webp 1600w" sizes="100vw" width="1600" height="1200" alt="Ottoman Palace Restaurant interior" fetchpriority="high" decoding="async">
   <div class="hero-text">
     <h1 data-i18n="hero_title">地道土耳其清真美食</h1>
     <p data-i18n="hero_sub">深圳华强北</p>
@@ -79,9 +81,9 @@
 <section id="contact" class="sec gray">
   <h2 data-i18n="nav_contact">联系我们</h2>
   <div class="cards">
-    <div class="card"><h3 data-i18n="c_phone">电话</h3><a id="phoneLink" href="#"></a></div>
+    <div class="card" id="cardPhone"><h3 data-i18n="c_phone">电话</h3><a id="phoneLink" href="#"></a></div>
     <div class="card"><h3>WhatsApp</h3><a id="waLink" href="#" target="_blank" rel="noopener"></a></div>
-    <div class="card"><h3>WeChat</h3><img class="qr" src="images/wechat-qr.png" alt="WeChat QR code" width="210" height="208" loading="lazy"><p data-i18n="wechat_hint">扫码添加微信</p></div>
+    <div class="card" id="cardWechat"><h3>WeChat</h3><img class="qr" src="images/wechat-qr.png" alt="WeChat QR code" width="210" height="208" loading="lazy"><p data-i18n="wechat_hint">扫码添加微信</p></div>
     <div class="card"><h3 data-i18n="c_addr">地址</h3><p id="addr"></p><a id="mapLink" href="#" target="_blank" rel="noopener" data-i18n="directions">高德地图导航</a></div>
     <div class="card"><h3>Email</h3><a id="mailLink" href="#"></a></div>
   </div>
