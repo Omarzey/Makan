@@ -12,6 +12,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Ottoman Palace Restaurant 奥斯曼土耳其餐厅","servesCuisine":["Turkish","Halal"],"telephone":"+8675523964118","address":{"@type":"PostalAddress","streetAddress":"No. 150-2, Zhenxing Road, Huaqiangbei Subdistrict, Futian District","addressLocality":"Shenzhen","addressCountry":"CN"}}</script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="wa-icon" viewBox="0 0 32 32"><path fill="currentColor" d="M16 3C9 3 3.4 8.6 3.4 15.5c0 2.3.6 4.4 1.7 6.3L3 29l7.4-1.9a12.5 12.5 0 0 0 5.6 1.4c7 0 12.6-5.6 12.6-12.5S23 3 16 3zm0 22.9c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.4 1.1 1.2-4.2-.3-.4a10.3 10.3 0 0 1-1.6-5.5C5.5 9.9 10.2 5.3 16 5.3s10.5 4.6 10.5 10.3S21.800 25.900 16 25.900zm5.700-7.700c-.3-.2-1.900-.9-2.200-1-.3-.1-.5-.2-.7.200-.2.300-.8 1-1 1.200-.2.200-.4.200-.7.100-1.900-.9-3.100-1.700-4.300-3.700-.3-.6.300-.5.900-1.700.1-.2 0-.4 0-.5l-1-2.200c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.100-.8.400-.3.300-1.100 1.100-1.100 2.700s1.200 3.100 1.300 3.300c.2.200 2.300 3.500 5.600 4.900 2.100.9 2.900 1 4 .8.600-.1 1.900-.8 2.100-1.500.3-.7.300-1.400.2-1.500-.1-.1-.3-.2-.6-.4z"/></symbol></svg>
 <header class="top">
   <div class="top-row">
     <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
@@ -51,8 +52,20 @@
 <section id="menu" class="sec">
   <h2 data-i18n="nav_menu">菜单</h2>
   <p class="note" data-i18n="menu_note"></p>
-  <input class="search" id="search" type="search" autocomplete="off" data-i18n-ph="search_ph" data-i18n-aria="search_ph">
-  <div class="tabs" id="tabs" role="tablist"></div>
+  <div class="menu-tools" id="menuTools">
+    <div class="searchrow">
+      <div class="searchbox">
+        <svg class="s-ico" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16.500 16.500 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input class="search" id="search" type="search" autocomplete="off" enterkeyhint="search" data-i18n-ph="search_ph" data-i18n-aria="search_ph">
+        <button type="button" class="s-clear" id="clearSearch" hidden data-i18n-aria="clear_search" aria-label="Clear search"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      </div>
+    </div>
+    <div class="toolsrow">
+      <div class="tabs" id="tabs" role="tablist"></div>
+      <button type="button" class="tool" id="toTop" data-i18n-aria="to_top" aria-label="Back to top"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <a class="tool wa" id="waMini" href="#contact" target="_blank" rel="noopener" data-i18n-aria="book_wa" aria-label="WhatsApp"><svg width="22" height="22" aria-hidden="true" style="color:#fff"><use href="#wa-icon"/></svg></a>
+    </div>
+  </div>
   <div class="items" id="items"></div>
   <p class="empty" id="empty" hidden data-i18n="no_results"></p>
   <a class="btn wa big" data-book data-i18n="book_wa">通过 WhatsApp 预订</a>
@@ -88,14 +101,14 @@
     <div class="card">
   <h3 data-i18n="c_tax">Tax Number</h3>
   <p id="taxNumber"></p>
-</div>
+    </div>
   </div>
 </section>
 </main>
 
-<footer>© <span data-i18n="name">奥斯曼土耳其餐厅</span></footer>
+<footer>© <span data-i18n="name">奥斯曼土耳其餐厅</span> · <a href="#home" data-i18n="to_top">↑</a></footer>
 
-<a class="wa-float" id="waFloat" href="#contact" aria-label="WhatsApp"><svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path fill="#fff" d="M16 3C9 3 3.4 8.6 3.4 15.5c0 2.3.6 4.4 1.7 6.3L3 29l7.4-1.9a12.5 12.5 0 0 0 5.6 1.4c7 0 12.6-5.6 12.6-12.5S23 3 16 3zm0 22.9c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.4 1.1 1.2-4.2-.3-.4a10.3 10.3 0 0 1-1.6-5.5C5.5 9.9 10.2 5.3 16 5.3s10.5 4.6 10.5 10.3S21.800 25.900 16 25.900zm5.700-7.700c-.3-.2-1.900-.9-2.200-1-.3-.1-.5-.2-.7.200-.2.300-.8 1-1 1.200-.2.200-.4.200-.7.100-1.900-.9-3.100-1.700-4.300-3.700-.3-.6.300-.5.900-1.700.1-.2 0-.4 0-.5l-1-2.200c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.100-.8.400-.3.300-1.100 1.100-1.100 2.700s1.200 3.100 1.300 3.300c.2.200 2.300 3.500 5.600 4.900 2.100.9 2.900 1 4 .8.600-.1 1.900-.8 2.100-1.500.3-.7.300-1.400.2-1.500-.1-.1-.3-.2-.6-.4z"/></svg></a>
+<a class="wa-float" id="waFloat" href="#contact" aria-label="WhatsApp"><svg width="28" height="28" aria-hidden="true" style="color:#fff"><use href="#wa-icon"/></svg></a>
 
 <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
   <button type="button" class="lb-btn lb-close" data-lb="close" aria-label="Close">×</button>
