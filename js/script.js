@@ -1,8 +1,8 @@
 // ====== EDIT THESE when the restaurant confirms the details ======
 const CONFIG = {
   phone: "+8675523964118",
-  whatsapp: "",   // digits only with country code, example: "8613812345678"
-  email: "",      // example: "info@example.com"
+  whatsapp: "8618123777544",   // digits only with country code, example: "8613812345678"
+  taxNumber: "91440300MAEXUW6366",      // example: "info@example.com"
   mapUrl: "https://surl.amap.com/kWOHY2mn8qd", // Amap share link from the restaurant
   address: "深圳市福田区华强北街道华航社区振兴路150-2", // from the menu PDF, to be confirmed
   city: "深圳"
@@ -57,7 +57,10 @@ function contact(){
   wa.textContent = CONFIG.whatsapp ? "+"+CONFIG.whatsapp : pend;
   wa.href = CONFIG.whatsapp ? waLink() : "#contact";
   const wf = $("#waFloat"); wf.href = wa.href; wf.target = CONFIG.whatsapp ? "_blank" : ""; wf.rel = "noopener"; wf.setAttribute("aria-label", "WhatsApp");
-  ml.textContent = CONFIG.email || pend; ml.href = CONFIG.email ? "mailto:"+CONFIG.email : "#contact";
+  ml.textContent = CONFIG.taxNumber;
+ml.removeAttribute("href");
+ml.removeAttribute("target");
+ml.style.cursor = "default";
   $("#addr").textContent = t.addr; $("#addr").dir = lang==="ar" ? "rtl" : "ltr";
   $("#mapLink").href = CONFIG.mapUrl || ("https://uri.amap.com/search?keyword="+encodeURIComponent(CONFIG.address)+"&city="+encodeURIComponent(CONFIG.city));
 }
