@@ -52,15 +52,12 @@ function renderMenu(){
 
 function contact(){
   const t = T[lang], pend = t.pending;
-  const ph = $("#phoneLink"), wa = $("#waLink"), ml = $("#mailLink");
+  const ph = $("#phoneLink"), wa = $("#waLink");
   ph.textContent = CONFIG.phone ? CONFIG.phone.replace(/^\+86(\d{3})(\d{4})(\d{4})$/,"+86 $1 $2 $3") : pend; ph.href = CONFIG.phone ? "tel:"+CONFIG.phone : "#contact";
   wa.textContent = CONFIG.whatsapp ? "+"+CONFIG.whatsapp : pend;
   wa.href = CONFIG.whatsapp ? waLink() : "#contact";
   const wf = $("#waFloat"); wf.href = wa.href; wf.target = CONFIG.whatsapp ? "_blank" : ""; wf.rel = "noopener"; wf.setAttribute("aria-label", "WhatsApp");
-  ml.textContent = CONFIG.taxNumber;
-ml.removeAttribute("href");
-ml.removeAttribute("target");
-ml.style.cursor = "default";
+  $("#taxNumber").textContent = CONFIG.taxNumber;
   $("#addr").textContent = t.addr; $("#addr").dir = lang==="ar" ? "rtl" : "ltr";
   $("#mapLink").href = CONFIG.mapUrl || ("https://uri.amap.com/search?keyword="+encodeURIComponent(CONFIG.address)+"&city="+encodeURIComponent(CONFIG.city));
 }
