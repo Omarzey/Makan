@@ -63,7 +63,7 @@ function renderReviews(){
   } else sum.hidden = true;
   $("#reviewList").innerHTML = list.map(r=>{
     const lg = [lang,"en","zh","ar","tr"].find(k=>r.text[k] && String(r.text[k]).trim()), n = Math.round(Number(r.rating));
-    const meta = [r.name, r.date, r.source].filter(Boolean).map(esc).join(" · ");
+    const meta = [r.name, r.date, r.source].filter(Boolean).map(x=>"<bdi>"+esc(x)+"</bdi>").join(" · ");
     return `<article class="review"><div class="stars" role="img" aria-label="${n} / 5">${"★".repeat(n)}<span class="off">${"★".repeat(5-n)}</span></div><blockquote lang="${lg==="zh"?"zh-CN":lg}" dir="auto">${esc(String(r.text[lg]).trim())}</blockquote>${meta?`<div class="rv-meta">${meta}</div>`:""}</article>`;
   }).join("");
   const a = $("#reviewsLink"); a.hidden = !hasUrl; if(hasUrl) a.href = CONFIG.reviewsUrl;
@@ -125,8 +125,8 @@ function contact(){
   ph.textContent = CONFIG.phone ? CONFIG.phone.replace(/^\+86(\d{3})(\d{4})(\d{4})$/,"+86 $1 $2 $3") : pend; ph.href = CONFIG.phone ? "tel:"+CONFIG.phone : "#contact";
   wa.textContent = CONFIG.whatsapp ? "+"+CONFIG.whatsapp : pend;
   wa.href = CONFIG.whatsapp ? waLink() : "#contact";
-  const wf = $("#waFloat"); wf.href = wa.href; wf.target = CONFIG.whatsapp ? "_blank" : ""; wf.rel = "noopener"; wf.setAttribute("aria-label", "WhatsApp");
-  const wm = $("#waMini"); wm.href = wa.href; wm.target = CONFIG.whatsapp ? "_blank" : ""; wm.rel = "noopener";
+  const wf = $("#waFloat"); wf.href = wa.href; wf.target = CONFIG.whatsapp ? "_blank" : ""; wf.rel = "noopener noreferrer"; wf.setAttribute("aria-label", "WhatsApp");
+  const wm = $("#waMini"); wm.href = wa.href; wm.target = CONFIG.whatsapp ? "_blank" : ""; wm.rel = "noopener noreferrer";
   $("#taxNumber").textContent = CONFIG.taxNumber || pend;
   $("#addr").textContent = t.addr; $("#addr").dir = lang==="ar" ? "rtl" : "ltr";
   $("#mapLink").href = CONFIG.mapUrl || ("https://uri.amap.com/search?keyword="+encodeURIComponent(CONFIG.address)+"&city="+encodeURIComponent(CONFIG.city));
@@ -157,7 +157,7 @@ document.addEventListener("click", e=>{
   if(b.id==="burger"){ drawer.classList.contains("open") ? closeNav(true) : openNav(); }
   else if(drawer.classList.contains("open")) closeNav(false);
   if(b.hasAttribute("data-book")){
-    if(CONFIG.whatsapp) window.open(waLink(), "_blank");
+    if(CONFIG.whatsapp) window.open(waLink(), "_blank", "noopener,noreferrer");
     else { $("#contact").scrollIntoView(); pulse(); }
   }
 });
@@ -194,7 +194,22 @@ document.addEventListener("keydown", e=>{
 // highlight the section being viewed
 const navLinks = [...drawer.querySelectorAll("a")];
 let inHome = false, inMenu = false;
-function floatState(){ $("#waFloat").classList.toggle("hide", inHome || inMenu); }   // never covers hero buttons or dish prices
+// The floating WhatsApp button never covers anything: it is hidden over the hero and the menu (the menu bar has its own WhatsApp button),
+// and everywhere else it fades out while it would sit on top of text or a button, then comes back in the free gaps.
+const FLOAT_AVOID = "main p, main h2, main h3, main li, main blockquote, main .rv-meta, main .btn, main .card a, footer";
+function floatCovers(){
+  const f = $("#waFloat"), cs = getComputedStyle(f), pad = 6;
+  const R = document.documentElement.clientWidth - parseFloat(cs.right) + pad, L = R - f.offsetWidth - 2*pad;
+  const B = innerHeight - parseFloat(cs.bottom) + pad, T = B - f.offsetHeight - 2*pad, rg = document.createRange();
+  for(const el of document.querySelectorAll(FLOAT_AVOID)){
+    if(el.closest("[hidden]")) continue;
+    const box = el.getBoundingClientRect(); if(box.bottom < T || box.top > B) continue;
+    let rects; if(el.matches(".btn")) rects = [box]; else { rg.selectNodeContents(el); rects = [...rg.getClientRects()]; }
+    if(rects.some(r=>r.width > 1 && r.height > 1 && r.right > L && r.left < R && r.bottom > T && r.top < B)) return true;
+  }
+  return false;
+}
+function floatState(){ $("#waFloat").classList.toggle("hide", inHome || inMenu || floatCovers()); }
 new IntersectionObserver(es=>{ inMenu = es[0].isIntersecting; floatState(); }).observe($("#menu"));
 const spy = new IntersectionObserver(es=>es.forEach(en=>{
   if(!en.isIntersecting) return;
@@ -202,6 +217,9 @@ const spy = new IntersectionObserver(es=>es.forEach(en=>{
   navLinks.forEach(a=>{ const on = a.getAttribute("href")==="#"+en.target.id; a.classList.toggle("active", on); on ? a.setAttribute("aria-current","location") : a.removeAttribute("aria-current"); });
 }), {rootMargin:"-40% 0px -55% 0px"});
 document.querySelectorAll("main > section").forEach(sec=>spy.observe(sec));
+let floatTick = false;
+addEventListener("scroll", ()=>{ if(!floatTick){ floatTick = true; requestAnimationFrame(()=>{ floatTick = false; floatState(); }); } }, {passive:true});
+addEventListener("resize", floatState);
 // reservation fallback: briefly highlight the contact options that exist today
 function pulse(){ ["#cardPhone","#cardWechat"].forEach(id=>{ const c=$(id); c.classList.remove("pulse"); void c.offsetWidth; c.classList.add("pulse"); setTimeout(()=>c.classList.remove("pulse"),1900); }); }
 
@@ -239,3 +257,4 @@ document.addEventListener("keydown", e=>{
 });
 
 setLang(lang);
+floatState(); addEventListener("load", floatState);
