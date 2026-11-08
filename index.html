@@ -32,6 +32,7 @@
   <a href="#menu" data-i18n="nav_menu">菜单</a>
   <a href="#about" data-i18n="nav_about">关于我们</a>
   <a href="#gallery" data-i18n="nav_gallery">图片</a>
+  <a href="#reviews" data-i18n="nav_reviews" hidden>评价</a>
   <a href="#contact" data-i18n="nav_contact">联系我们</a>
 </nav>
 <div class="scrim" id="scrim"></div>
@@ -72,23 +73,44 @@
 </section>
 
 <section id="about" class="sec gray">
-  <h2 data-i18n="nav_about">关于我们</h2>
-  <p data-i18n="about_1"></p>
-  <p data-i18n="about_2"></p>
-  <h3 data-i18n="halal_h">什么是“清真 / Halal”？</h3>
-  <p data-i18n="halal_p"></p>
+  <div class="about-grid">
+    <img class="about-img" src="images/interior2.webp" alt="Restaurant interior" width="1600" height="1200" loading="lazy" decoding="async">
+    <div class="about-text">
+      <h2 data-i18n="nav_about">关于我们</h2>
+      <p class="lead" data-i18n="about_1"></p>
+      <ul class="facts">
+        <li data-i18n="about_f1"></li>
+        <li data-i18n="about_f2"></li>
+        <li data-i18n="about_f3"></li>
+      </ul>
+      <div class="halal-note">
+        <h3 data-i18n="halal_h">什么是“清真 / Halal”？</h3>
+        <p data-i18n="halal_p"></p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="gallery" class="sec">
   <h2 data-i18n="gallery_h">图片</h2>
   <div class="gallery">
-    <button type="button" class="g-item" data-gi="0"><img src="images/interior2.webp" alt="Restaurant interior" loading="lazy"></button>
-    <button type="button" class="g-item" data-gi="1"><img src="images/interior3.webp" alt="Dining hall" loading="lazy"></button>
-    <button type="button" class="g-item" data-gi="2"><img src="images/kebab1.webp" alt="Grilled kebab platter" loading="lazy"></button>
-    <button type="button" class="g-item" data-gi="3"><img src="images/mandi2.webp" alt="Lamb mandi rice tray" loading="lazy"></button>
-    <button type="button" class="g-item" data-gi="4"><img src="images/mandi1.webp" alt="Mandi rice with lamb shank" loading="lazy"></button>
-    <button type="button" class="g-item" data-gi="5"><img src="images/soup.webp" alt="Hot soup bowl" loading="lazy"></button>
+    <button type="button" class="g-item" data-gi="0"><img src="images/interior3.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="1"><img src="images/kebab1.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="2"><img src="images/mandi2.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="3"><img src="images/mandi1.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="4"><img src="images/soup.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="5"><img src="images/meze.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="6"><img src="images/shrimp.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="7"><img src="images/icecream.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="8"><img src="images/pide.webp" alt="" loading="lazy" decoding="async"></button>
   </div>
+</section>
+
+<section id="reviews" class="sec" hidden>
+  <h2 data-i18n="reviews_h">顾客评价</h2>
+  <p class="rating-sum" id="ratingSum" hidden></p>
+  <div class="reviews" id="reviewList"></div>
+  <a class="btn ghost-dark" id="reviewsLink" href="#" target="_blank" rel="noopener" hidden data-i18n="reviews_more">查看更多评价</a>
 </section>
 
 <section id="contact" class="sec gray">
@@ -98,10 +120,7 @@
     <div class="card"><h3>WhatsApp</h3><a id="waLink" href="#" target="_blank" rel="noopener"></a></div>
     <div class="card" id="cardWechat"><h3>WeChat</h3><img class="qr" src="images/wechat-qr.png" alt="WeChat QR code" width="210" height="208" loading="lazy"><p data-i18n="wechat_hint">扫码添加微信</p></div>
     <div class="card"><h3 data-i18n="c_addr">地址</h3><p id="addr"></p><a id="mapLink" href="#" target="_blank" rel="noopener" data-i18n="directions">高德地图导航</a></div>
-    <div class="card">
-  <h3 data-i18n="c_tax">Tax Number</h3>
-  <p id="taxNumber"></p>
-    </div>
+    <div class="card"><h3 data-i18n="c_tax">税号</h3><p><bdi id="taxNumber"></bdi></p></div>
   </div>
 </section>
 </main>
@@ -110,14 +129,15 @@
 
 <a class="wa-float" id="waFloat" href="#contact" aria-label="WhatsApp"><svg width="28" height="28" aria-hidden="true" style="color:#fff"><use href="#wa-icon"/></svg></a>
 
-<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button type="button" class="lb-btn lb-close" data-lb="close" aria-label="Close">×</button>
-  <button type="button" class="lb-btn lb-prev" data-lb="prev" aria-label="Previous">‹</button>
-  <img id="lbImg" alt="">
-  <button type="button" class="lb-btn lb-next" data-lb="next" aria-label="Next">›</button>
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-labelledby="lbCap">
+  <button type="button" class="lb-btn lb-close" data-lb="close" data-i18n-aria="lb_close" aria-label="Close">×</button>
+  <button type="button" class="lb-btn lb-prev" data-lb="prev" data-i18n-aria="lb_prev" aria-label="Previous">‹</button>
+  <figure class="lb-fig"><img id="lbImg" alt=""><figcaption><span id="lbCap"></span><span class="lb-count" id="lbCount" aria-live="polite"></span></figcaption></figure>
+  <button type="button" class="lb-btn lb-next" data-lb="next" data-i18n-aria="lb_next" aria-label="Next">›</button>
 </div>
 
 <script src="js/menu.js"></script>
+<script src="js/reviews.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
