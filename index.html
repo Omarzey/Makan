@@ -64,7 +64,7 @@
     <div class="toolsrow">
       <div class="tabs" id="tabs" role="tablist"></div>
       <button type="button" class="tool" id="toTop" data-i18n-aria="to_top" aria-label="Back to top"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <a class="tool wa" id="waMini" href="#contact" target="_blank" rel="noopener" data-i18n-aria="book_wa" aria-label="WhatsApp"><svg width="22" height="22" aria-hidden="true" style="color:#fff"><use href="#wa-icon"/></svg></a>
+      <a class="tool wa" id="waMini" href="#contact" target="_blank" rel="noopener noreferrer" data-i18n-aria="book_wa" aria-label="WhatsApp"><svg width="22" height="22" aria-hidden="true" style="color:#fff"><use href="#wa-icon"/></svg></a>
     </div>
   </div>
   <div class="items" id="items"></div>
@@ -83,26 +83,37 @@
         <li data-i18n="about_f2"></li>
         <li data-i18n="about_f3"></li>
       </ul>
-      <div class="halal-note">
-        <h3 data-i18n="halal_h">什么是“清真 / Halal”？</h3>
-        <p data-i18n="halal_p"></p>
-      </div>
     </div>
+  </div>
+  <div class="halal-info-grid">
+    <section class="halal-note" aria-labelledby="halal-heading">
+      <h3 id="halal-heading" data-i18n="halal_h">什么是“清真 / Halal”？</h3>
+      <p data-i18n="halal_p"></p>
+    </section>
+
+    <section class="halal-cert-card" aria-labelledby="halal-cert-heading">
+      <h3 id="halal-cert-heading" data-i18n="halal_cert_h">餐厅会员证书</h3>
+      <p data-i18n="halal_cert_p">本餐厅是深圳市清真食品行业协会的会员单位。</p>
+      <a class="halal-cert-image-link" href="images/halal-membership-certificate.jpg" target="_blank" rel="noopener noreferrer" data-i18n-aria="halal_cert_hint" aria-label="Click the certificate to view it in a larger size">
+        <img class="halal-cert-image" src="images/halal-membership-certificate.jpg" alt="Membership certificate issued by the Shenzhen Halal Food Industry Association, membership number 0254, valid from 27 October 2025 to 26 October 2028" width="1031" height="1536" loading="lazy" decoding="async">
+      </a>
+      <p class="halal-cert-hint" data-i18n="halal_cert_hint">点击证书查看大图。</p>
+    </section>
   </div>
 </section>
 
 <section id="gallery" class="sec">
   <h2 data-i18n="gallery_h">图片</h2>
   <div class="gallery">
-    <button type="button" class="g-item" data-gi="0"><img src="images/interior3.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="1"><img src="images/kebab1.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="2"><img src="images/mandi2.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="3"><img src="images/mandi1.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="4"><img src="images/soup.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="5"><img src="images/meze.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="6"><img src="images/shrimp.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="7"><img src="images/icecream.webp" alt="" loading="lazy" decoding="async"></button>
-    <button type="button" class="g-item" data-gi="8"><img src="images/pide.webp" alt="" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="0"><img src="images/interior3.webp" alt="Restaurant dining area" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="1"><img src="images/kebab1.webp" alt="Turkish grilled kebab platter" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="2"><img src="images/mandi2.webp" alt="Lamb mandi rice platter" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="3"><img src="images/mandi1.webp" alt="Mandi rice with lamb shank" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="4"><img src="images/soup.webp" alt="Bowl of soup" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="5"><img src="images/meze.webp" alt="Turkish meze appetizer platter" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="6"><img src="images/shrimp.webp" alt="Crispy shrimp balls" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="7"><img src="images/icecream.webp" alt="Fruit ice cream dessert" loading="lazy" decoding="async"></button>
+    <button type="button" class="g-item" data-gi="8"><img src="images/pide.webp" alt="Turkish lamb pide" loading="lazy" decoding="async"></button>
   </div>
 </section>
 
@@ -110,16 +121,16 @@
   <h2 data-i18n="reviews_h">顾客评价</h2>
   <p class="rating-sum" id="ratingSum" hidden></p>
   <div class="reviews" id="reviewList"></div>
-  <a class="btn ghost-dark" id="reviewsLink" href="#" target="_blank" rel="noopener" hidden data-i18n="reviews_more">查看更多评价</a>
+  <a class="btn ghost-dark" id="reviewsLink" href="#" target="_blank" rel="noopener noreferrer" hidden data-i18n="reviews_more">查看更多评价</a>
 </section>
 
 <section id="contact" class="sec gray">
   <h2 data-i18n="nav_contact">联系我们</h2>
   <div class="cards">
     <div class="card" id="cardPhone"><h3 data-i18n="c_phone">电话</h3><a id="phoneLink" href="#"></a></div>
-    <div class="card"><h3>WhatsApp</h3><a id="waLink" href="#" target="_blank" rel="noopener"></a></div>
+    <div class="card"><h3>WhatsApp</h3><a id="waLink" href="#" target="_blank" rel="noopener noreferrer"></a></div>
     <div class="card" id="cardWechat"><h3>WeChat</h3><img class="qr" src="images/wechat-qr.png" alt="WeChat QR code" width="210" height="208" loading="lazy"><p data-i18n="wechat_hint">扫码添加微信</p></div>
-    <div class="card"><h3 data-i18n="c_addr">地址</h3><p id="addr"></p><a id="mapLink" href="#" target="_blank" rel="noopener" data-i18n="directions">高德地图导航</a></div>
+    <div class="card"><h3 data-i18n="c_addr">地址</h3><p id="addr"></p><a id="mapLink" href="#" target="_blank" rel="noopener noreferrer" data-i18n="directions">高德地图导航</a></div>
     <div class="card"><h3 data-i18n="c_tax">税号</h3><p><bdi id="taxNumber"></bdi></p></div>
   </div>
 </section>
