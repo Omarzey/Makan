@@ -564,13 +564,21 @@ $adminUsername = (string) ($_SESSION['admin_username'] ?? 'Admin');
                            type="number" min="0" max="99999999.99"
                            step="0.01" required>
                 </div>
+<div>
+    <label for="new_image">اسم ملف الصورة دون الامتداد</label>
+    <input id="new_image" name="image_filename"
+           maxlength="255"
+           placeholder="مثال: m-2-24">
 
-                <div>
-                    <label for="new_image">اسم ملف الصورة دون الامتداد</label>
-                    <input id="new_image" name="image_filename"
-                           maxlength="255"
-                           placeholder="مثال: m-2-24">
-                </div>
+    <a class="link secondary" href="upload-image.php"
+       target="_blank" rel="noopener">
+        رفع صورة جديدة
+    </a>
+
+    <p class="dish-count">
+        بعد رفع الصورة، انسخ اسم الملف وضعه هنا دون .webp
+    </p>
+</div>
 
                 <div>
                     <label for="new_order">ترتيب الظهور</label>
@@ -676,12 +684,21 @@ $adminUsername = (string) ($_SESSION['admin_username'] ?? 'Admin');
                         </div>
 
                         <div>
-                            <label>اسم ملف الصورة دون الامتداد</label>
-                            <input name="image_filename"
-                                   maxlength="255"
-                                   value="<?= dishes_h($dish['image_filename']) ?>"
-                                   placeholder="مثال: m-2-24">
-                        </div>
+    <label>اسم ملف الصورة دون الامتداد</label>
+    <input name="image_filename"
+           maxlength="255"
+           value="<?= dishes_h($dish['image_filename']) ?>"
+           placeholder="مثال: m-2-24">
+
+    <a class="link secondary" href="upload-image.php"
+       target="_blank" rel="noopener">
+        رفع صورة جديدة
+    </a>
+
+    <p class="dish-count">
+        بعد رفع الصورة، انسخ اسم الملف وضعه هنا دون .webp
+    </p>
+</div>
 
                         <div>
                             <label>ترتيب الظهور</label>
