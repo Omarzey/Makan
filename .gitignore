@@ -1,0 +1,17 @@
+# Private database configuration
+/config/config.php
+/config/config.local.php
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Logs
+*.log
+/logs/
+
+# Temporary files
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
