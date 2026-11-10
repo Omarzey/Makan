@@ -144,3 +144,82 @@ footer{text-align:center;padding:22px 22px 90px;background:var(--gray);color:var
 .card.pulse{animation:pulse 1.8s ease}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(182,154,96,0)}30%{box-shadow:0 0 0 4px rgba(182,154,96,.8)}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* ===== Fix: Keep dish names and prices visible ===== */
+
+.dish {
+  display: flex;
+  flex-direction: column;
+  height: auto !important;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.dish > .pic {
+  display: block;
+  position: relative;
+  flex: 0 0 auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  min-height: 0;
+}
+
+.dish > .body {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 110px;
+  height: auto !important;
+  padding: 10px 12px 12px;
+  gap: 3px;
+  visibility: visible !important;
+  opacity: 1 !important;
+  overflow: visible;
+}
+
+.dish .n,
+.dish .sub,
+.dish .p {
+  position: relative;
+  visibility: visible !important;
+  opacity: 1 !important;
+  color: var(--text);
+}
+
+.dish .n {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.dish .sub {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--muted);
+}
+
+.dish .p {
+  display: block;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 6px;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.dish .p .cur {
+  color: var(--gold);
+}
+
+/* ===== End fix ===== */
