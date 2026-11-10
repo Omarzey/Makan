@@ -81,7 +81,8 @@ let cat = null;
 let query = "";
 const $ = s => document.querySelector(s);
 
-const ALL = MENU.flatMap((c,ci)=>c.d.map((d,di)=>({d,ci,di})));
+let MENU_DATA = MENU;
+let ALL = MENU_DATA.flatMap((c,ci)=>c.d.map((d,di)=>({d,ci,di})));
 const esc = v => String(v).replace(/[&<>"]/g, ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch]));
 const hasSig = () => ALL.some(e=>e.d.signature===true);
 const reduced = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -119,7 +120,7 @@ function centerTab(){
 function renderTabs(){
   const el = $("#tabs"), sig = hasSig();
   if(cat==="sig" && !sig) cat = 0;
-  el.innerHTML = (sig ? `<button type="button" role="tab" data-c="sig">★ ${T[lang].sig_title}</button>` : "") + MENU.map((c,i)=>`<button type="button" role="tab" data-c="${i}">${c.n[lang]}</button>`).join("");
+  el.innerHTML = (sig ? `<button type="button" role="tab" data-c="sig">★ ${T[lang].sig_title}</button>` : "") + MENU_DATA.map((c,i)=>`<button type="button" role="tab" data-c="${i}">${c.n[lang]}</button>`).join("");
   updateTabs();
   // Keep the currently selected category visible after labels are rebuilt for a language change.
   centerTab();
@@ -270,7 +271,7 @@ let menuSwipeStart = null;
 function moveCategory(step){
   if(query.trim()) return; // do not change categories while the user is searching
   const current = typeof cat === "number" ? cat : 0;
-  const next = Math.max(0, Math.min(MENU.length - 1, current + step));
+  const next = Math.max(0, Math.min(MENU_DATA.length - 1, current + step));
   if(next === current) return;
   cat = next;
   renderItems(); updateTabs(); centerTab();
@@ -331,5 +332,51 @@ document.addEventListener("keydown", e=>{
   }
 });
 
-setLang(lang);
-floatState(); addEventListener("load", floatState);
+// ---- load menu from the PHP API, with bundled data as fallback ----
+async function initializeMenu(){
+  try {
+    const response = await fetch("api/menu.php", {
+      method: "GET",
+      headers: { "Accept": "application/json" },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("Menu API returned HTTP " + response.status);
+    }
+
+    const data = await response.json();
+    const validMenu = Array.isArray(data) && data.length > 0
+      && data.every(category =>
+        category && category.n && typeof category.n === "object"
+        && ["zh","en","ar","tr"].every(language =>
+          typeof category.n[language] === "string" && Array.isArray(category.d)
+        )
+        && category.d.every(dish =>
+          dish && Number.isFinite(Number(dish.p))
+          && ["zh","en","ar","tr"].every(language => typeof dish[language] === "string")
+        )
+      );
+
+    if (!validMenu) {
+      throw new Error("Menu API returned an invalid menu structure");
+    }
+
+    MENU_DATA = data;
+  } catch (error) {
+    // GitHub Pages and other static hosts cannot execute PHP.
+    // Keep the bundled menu as a safe fallback until the PHP API is available.
+    console.warn("Using the bundled menu because the API could not be loaded:", error);
+    MENU_DATA = MENU;
+  }
+
+  ALL = MENU_DATA.flatMap((category, ci) =>
+    category.d.map((dish, di) => ({ d: dish, ci, di }))
+  );
+
+  setLang(lang);
+  floatState();
+  addEventListener("load", floatState);
+}
+
+initializeMenu();
