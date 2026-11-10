@@ -1,7 +1,8 @@
+
 <?php
 /**
  * Public menu API.
- * Returns the active menu in the structure used by the existing js/menu.js.
+ * Returns the active menu in the structure used by the frontend.
  * Endpoint: /api/menu.php
  */
 
@@ -27,7 +28,8 @@ try {
             d.is_signature,
             d.sort_order AS dish_order,
             dt.language_code AS dish_language,
-            dt.name AS dish_name
+            dt.name AS dish_name,
+            dt.description AS dish_description
         FROM categories c
         INNER JOIN category_translations ct
             ON ct.category_id = c.id
@@ -50,6 +52,7 @@ try {
 
         if (!isset($categoryIndexes[$categoryId])) {
             $categoryIndexes[$categoryId] = count($menu);
+
             $menu[] = [
                 'n' => [],
                 'd' => [],
@@ -61,7 +64,8 @@ try {
         $categoryLanguage = $row['category_language'];
 
         if (in_array($categoryLanguage, $languages, true)) {
-            $menu[$categoryIndex]['n'][$categoryLanguage] = $row['category_name'];
+            $menu[$categoryIndex]['n'][$categoryLanguage] =
+                $row['category_name'];
         }
 
         if ($row['dish_id'] === null) {
@@ -84,8 +88,19 @@ try {
         $dishIndex = $menu[$categoryIndex]['_dish_indexes'][$dishId];
         $dishLanguage = $row['dish_language'];
 
-        if ($dishLanguage !== null && in_array($dishLanguage, $languages, true)) {
-            $menu[$categoryIndex]['d'][$dishIndex][$dishLanguage] = $row['dish_name'];
+        if (
+            $dishLanguage !== null
+            && in_array($dishLanguage, $languages, true)
+        ) {
+            $menu[$categoryIndex]['d'][$dishIndex][$dishLanguage] =
+                $row['dish_name'];
+
+            $description = trim((string) ($row['dish_description'] ?? ''));
+
+            if ($description !== '') {
+                $menu[$categoryIndex]['d'][$dishIndex]
+                    ['_desc'][$dishLanguage] = $description;
+            }
         }
     }
 
@@ -100,9 +115,17 @@ try {
             if (!$dish['signature']) {
                 unset($dish['signature']);
             }
+
+            if (!empty($dish['_desc'])) {
+                $dish['desc'] = $dish['_desc'];
+            }
+
+            unset($dish['_desc']);
         }
+
         unset($dish);
     }
+
     unset($category);
 
     echo json_encode(
@@ -111,10 +134,12 @@ try {
         | JSON_UNESCAPED_SLASHES
         | JSON_INVALID_UTF8_SUBSTITUTE
     );
+
 } catch (Throwable $exception) {
     error_log('Menu API error: ' . $exception->getMessage());
 
     http_response_code(500);
+
     echo json_encode(
         ['error' => 'Unable to load the menu at this time.'],
         JSON_UNESCAPED_UNICODE
