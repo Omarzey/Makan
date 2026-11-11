@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Ottoman Palace Restaurant - Admin dashboard
@@ -138,6 +139,54 @@ function dashboard_escape(string $value): string
             font-weight: 700;
         }
 
+        .section-title {
+            margin: 32px 0 14px;
+            font-size: 19px;
+        }
+
+        .tools {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .tool {
+            display: block;
+            padding: 22px;
+            color: var(--text);
+            text-decoration: none;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: border-color .2s ease, transform .2s ease;
+        }
+
+        .tool:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .tool h3 {
+            margin: 0 0 9px;
+            color: var(--green);
+            font-size: 17px;
+        }
+
+        .tool p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .tool .arrow {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--gold);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
         .notice {
             margin-top: 22px;
             padding: 18px 20px;
@@ -159,8 +208,13 @@ function dashboard_escape(string $value): string
 
         @media (max-width: 650px) {
             .topbar { padding: 16px; }
-            .stats { grid-template-columns: 1fr; }
+            .stats, .tools { grid-template-columns: 1fr; }
             .container { margin-top: 25px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tool { transition: none; }
+            .tool:hover { transform: none; }
         }
     </style>
 </head>
@@ -175,7 +229,7 @@ function dashboard_escape(string $value): string
             <h2>لوحة التحكم</h2>
             <p>
                 مرحبًا <?= dashboard_escape($adminUsername) ?>،
-                يمكنك من هنا متابعة بيانات قائمة المطعم.
+                يمكنك من هنا متابعة وإدارة بيانات قائمة المطعم.
             </p>
         </section>
 
@@ -196,10 +250,33 @@ function dashboard_escape(string $value): string
             </article>
         </section>
 
+        <h2 class="section-title">إدارة المنيو</h2>
+
+        <nav class="tools" aria-label="أدوات إدارة المنيو">
+            <a class="tool" href="categories.php">
+                <h3>إدارة الأقسام</h3>
+                <p>
+                    إضافة الأقسام وتعديل أسمائها وترتيبها
+                    وإدارة ظهورها في المنيو.
+                </p>
+                <span class="arrow">فتح إدارة الأقسام ←</span>
+            </a>
+
+            <a class="tool" href="dishes.php">
+                <h3>إدارة الأطباق</h3>
+                <p>
+                    إضافة الأطباق وتعديل بياناتها وأسعارها
+                    وصورها وترجماتها وحالة توفرها.
+                </p>
+                <span class="arrow">فتح إدارة الأطباق ←</span>
+            </a>
+        </nav>
+
         <section class="notice">
             <strong>حالة النظام:</strong>
-            تم تجهيز تسجيل الدخول والاتصال بقاعدة البيانات.
-            أدوات إدارة الأقسام والأطباق والأسعار والصور ستُضاف في الخطوات التالية.
+            لوحة التحكم مرتبطة بقاعدة البيانات لعرض الإحصائيات.
+            يلزم اختبار وظائف الإدارة فعليًا بعد تشغيل الموقع
+            على استضافة تدعم PHP وMySQL.
         </section>
 
         <p class="account">
